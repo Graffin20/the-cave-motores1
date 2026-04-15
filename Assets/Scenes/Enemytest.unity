@@ -260,11 +260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5235514754129846063, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2.3600001
       objectReference: {fileID: 0}
     - target: {fileID: 5235514754129846063, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -14.54
       objectReference: {fileID: 0}
     - target: {fileID: 5235514754129846063, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -294,6 +294,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5995825718070857045, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 1920367379}
     - target: {fileID: 6936776461259146679, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
@@ -326,7 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 344678982736418930, guid: 85a334e9861ae25439a29cb3cabbf0b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -14.54
       objectReference: {fileID: 0}
     - target: {fileID: 344678982736418930, guid: 85a334e9861ae25439a29cb3cabbf0b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -535,7 +539,7 @@ Transform:
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.3600001, z: -14.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -725,7 +729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   target: {fileID: 866923387}
-  health: 100
+  range: 12
+  extraRange: 2
 --- !u!1 &1490408825
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,7 +872,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.3506, y: 0, z: -5.6634}
-  m_LocalScale: {x: 3.7482471, y: 1, z: 1.6263715}
+  m_LocalScale: {x: 5, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -876,6 +881,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1014891335008583424, guid: 3b09a66219ca1914a98988bfcc0b0e2b, type: 3}
   m_PrefabInstance: {fileID: 426183887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1920367379 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7017151824191939786, guid: 85a334e9861ae25439a29cb3cabbf0b7, type: 3}
+  m_PrefabInstance: {fileID: 605047431}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2117186164 stripped
 Transform:

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f; // Speed of movement
+    [SerializeField] private float speed = 10f;
     [SerializeField] private GameObject hitEffect;
 
     Rigidbody rb;
@@ -15,10 +15,8 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 3f);
     }
 
-    // Called when the object collides with another collider
     private void OnCollisionEnter(Collision collision)
     {
-        // Destroy this object upon collision
         Destroy(gameObject);
         SpawnEffect();
     }

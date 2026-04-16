@@ -270,9 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e185398c28f5405489f7784f97507b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  magazineSize: 30
-  reserveAmmo: 90
-  currentAmmo: 0
+  magazineSize: 6
+  reserveAmmo: 18
+  currentAmmo: 6
   fireRate: 10
   reloadTime: 2
   muzzlePoint: {fileID: 0}

@@ -1,9 +1,17 @@
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "NewTestItem", menuName = "Inventory/Items/Test Item")]
 public class TestItem : ItemDefinition
 {
-    public override void Use()
+    // public int healAmount = 25;
+
+    public override void Use(GameObject user)
     {
-        Debug.Log("hola");
+        // var health = user.GetComponent<PlayerHealth>();
+        //if (health != null)
+        // {
+        // health.Heal(healAmount);
+        Debug.Log($"Used {itemName}");
+        // }
     }
 }

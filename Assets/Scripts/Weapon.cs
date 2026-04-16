@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 public class Weapon : MonoBehaviour
 {
     [Header("Ammo")]
-    [SerializeField] private int magazineSize = 30;
-    [SerializeField] private int reserveAmmo = 90;
+    [SerializeField] private int magazineSize = 21;
+    [SerializeField] private int reserveAmmo = 7;
     public int currentAmmo;
     private bool _isReloading = false;
 

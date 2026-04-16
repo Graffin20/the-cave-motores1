@@ -13,6 +13,9 @@ public class ItemContextMenu : MonoBehaviour
     [SerializeField] ItemDropper itemDropper;
     [SerializeField] Canvas canvas;
 
+    [Header("Player")]
+    public GameObject player;
+
     int activeSlot = -1;
 
     void Awake()
@@ -59,14 +62,17 @@ public class ItemContextMenu : MonoBehaviour
     void UseItem()
     {
         if (activeSlot < 0) return;
-
         var slot = InventoryManager.Instance.Slots[activeSlot];
         if (slot.IsEmpty) { Hide(); return; }
 
-        slot.item.Use();
-
-        InventoryManager.Instance.RemoveFromSlot(activeSlot, 1);
-
+        // Calls the overridden Use() on whatever ItemDefinition subtype this is.
+        // The item receives the player GameObject and can GetComponent<> whatever it needs.
+        slot.item.Use(player);
+        Debug.Log($"[Inventory] Used: {slot.item.itemName}");
+        if (slot.item.isConsumable)
+        {
+            var item = InventoryManager.Instance.RemoveFromSlot(activeSlot, 1);
+        }
         Hide();
     }
 

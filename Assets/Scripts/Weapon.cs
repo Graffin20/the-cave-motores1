@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 public class Weapon : MonoBehaviour
 {
     [Header("Ammo")]
-    public int magazineSize = 30;
-    public int reserveAmmo = 90;
-    private int _currentAmmo;
+    [SerializeField] private int magazineSize = 30;
+    [SerializeField] private int reserveAmmo = 90;
+    public int currentAmmo;
     private bool _isReloading = false;
 
     [Header("Firing")]
@@ -24,14 +24,14 @@ public class Weapon : MonoBehaviour
 
     void Awake()
     {
-        _currentAmmo = magazineSize;
+        currentAmmo = magazineSize;
     }
 
     void OnAttack(InputValue value)
     {
-        if (!value.isPressed || _isReloading || Time.time < _nextFireTime) return;
+        if (!value.isPressed || _isReloading || Time.time < _nextFireTime || InventoryUI.Instance._isOpen) return;
 
-        if (_currentAmmo > 0)
+        if (currentAmmo > 0)
             Fire();
         else
             TryReload();
@@ -54,7 +54,7 @@ public class Weapon : MonoBehaviour
 
     void Fire()
     {
-        _currentAmmo--;
+        currentAmmo--;
         _nextFireTime = Time.time + 1f / fireRate;
         Instantiate(bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
         recoil.ApplyRecoil();
@@ -62,7 +62,7 @@ public class Weapon : MonoBehaviour
 
     void TryReload()
     {
-        if (_isReloading || _currentAmmo == magazineSize || reserveAmmo <= 0) return;
+        if (_isReloading || currentAmmo == magazineSize || reserveAmmo <= 0) return;
 
         _isReloading = true;
         _reloadTimer = reloadTime;
@@ -70,13 +70,13 @@ public class Weapon : MonoBehaviour
 
     void FinishReload()
     {
-        int taken = Mathf.Min(magazineSize - _currentAmmo, reserveAmmo);
-        _currentAmmo += taken;
+        int taken = Mathf.Min(magazineSize - currentAmmo, reserveAmmo);
+        currentAmmo += taken;
         reserveAmmo -= taken;
         _isReloading = false;
     }
 
-    public int CurrentAmmo => _currentAmmo;
+    public int CurrentAmmo => currentAmmo;
     public int ReserveAmmo => reserveAmmo;
     public bool IsReloading => _isReloading;
 }

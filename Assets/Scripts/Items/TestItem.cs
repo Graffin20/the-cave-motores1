@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// Change the menu path to whatever category makes sense.
 [CreateAssetMenu(fileName = "NewTestItem", menuName = "Inventory/Items/Test Item")]
 public class TestItem : ItemDefinition
 {
@@ -11,8 +10,8 @@ public class TestItem : ItemDefinition
         // var health = user.GetComponent<PlayerHealth>();
         //if (health != null)
         // {
-            // health.Heal(healAmount);
-            Debug.Log($"Used {itemName}");
+        // health.Heal(healAmount);
+        Debug.Log($"Used {itemName}");
         // }
     }
 }

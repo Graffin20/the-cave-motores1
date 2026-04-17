@@ -40,8 +40,6 @@ public class FirstPersonController : MonoBehaviour
             move.Normalize();
 
         _cc.Move(move * moveSpeed * Time.deltaTime);
-
-        // Rotate character to match camera's yaw
         transform.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);
 
         if (_cc.isGrounded && _velocity.y < 0f)

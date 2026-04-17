@@ -11,15 +11,13 @@ public class ItemDefinition : ScriptableObject
     [Header("Behaviour")]
     public bool isUsable = true;
     public bool isStackable = false;
+    public bool isConsumable = true;
     public int maxStackSize = 1;
 
     [Header("World")]
-    // Prefab that gets spawned when this item is dropped into the world.
-    // Assign the ItemPickup prefab with this ItemDefinition already set on it.
     public GameObject worldPrefab;
 
-    public virtual void Use()
+    public virtual void Use(GameObject user)
     {
-
     }
 }

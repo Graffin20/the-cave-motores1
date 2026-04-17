@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FirstPersonController
   moveSpeed: 5
   gravity: -9.81
-  cameraTransform: {fileID: 0}
+  cameraTransform: {fileID: 3903865154068812426, guid: 3fc29cbf1f837c544bcee493449411ce, type: 3}
 --- !u!114 &8274119118467272893
 MonoBehaviour:
   m_ObjectHideFlags: 0

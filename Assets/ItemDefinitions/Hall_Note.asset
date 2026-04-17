@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473278ff2784e214bb111859a1af8cec, type: 3}
-  m_Name: TestItem
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  itemName: Test Item
-  description: This is a test item
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: 7b36b42d562e9084e85879f8009d7e67, type: 3}
+  m_Name: Hall_Note
+  m_EditorClassIdentifier: Assembly-CSharp::NoteItem
+  itemName: Mysterious Note
+  description: 
+  icon: {fileID: 0}
   isUsable: 1
-  isStackable: 1
+  isStackable: 0
   isConsumable: 0
-  maxStackSize: 9
+  maxStackSize: 1
   worldPrefab: {fileID: 4850277297779412784, guid: 00877bb59e79e274eba41c9713ac10c1, type: 3}
+  noteContent: Watch out

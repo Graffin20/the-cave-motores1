@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/Enemy.meta
+guid: 95dca33505c1aae41b22b81e3127a0fd
+folderAsset: yes
+DefaultImporter:
+=======
+guid: b208e0b1bc722ce4d9e7ccd710540e6c
+PrefabImporter:
+>>>>>>> parent of 98f4a22 (Merge remote-tracking branch 'origin/playtest' into level-design---Gael/Eze):Assets/Prefabs/System/GameManager.prefab.meta
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if (!value.isPressed || _isReloading || Time.time < _nextFireTime || (InventoryUI.Instance != null && InventoryUI.Instance._isOpen)) return;
+        if (!value.isPressed || _isReloading || Time.time < _nextFireTime || InventoryUI.Instance._isOpen) return;
 
         if (currentAmmo > 0)
             Fire();

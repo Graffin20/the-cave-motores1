@@ -23,7 +23,6 @@ public class InventoryUI : MonoBehaviour
     {
         Instance = this;
     }
-
     void Start()
     {
         int total = InventoryManager.Instance.Slots.Length;
@@ -54,20 +53,13 @@ public class InventoryUI : MonoBehaviour
 
         if (InventoryManager.Instance != null)
             InventoryManager.Instance.OnInventoryChanged -= Refresh;
-
         Time.timeScale = 1f;
     }
 
     void ToggleInventory(InputAction.CallbackContext ctx)
-    {      
-        //If the inventory is open and the panel is active, it blocks the TAB input
-        if (_isOpen && NoteManager.Instance != null && NoteManager.Instance.isNoteOpen)
-        {
-            Debug.Log("You Can't close the inventory while reading a note.");
-            return;
-        } 
-
+    {
         _isOpen = !_isOpen;
+
         inventoryPanel.SetActive(_isOpen);
 
         if (_isOpen)

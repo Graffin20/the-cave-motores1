@@ -17,12 +17,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemy))
-        {
-            enemy.TakeHit(); 
-        }
-        SpawnEffect();
         Destroy(gameObject);
+        SpawnEffect();
     }
     private void SpawnEffect()
     {

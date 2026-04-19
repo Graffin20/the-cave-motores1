@@ -17,8 +17,7 @@ public class ItemDefinition : ScriptableObject
     [Header("World")]
     public GameObject worldPrefab;
 
-    public virtual bool Use(GameObject user)
+    public virtual void Use(GameObject user)
     {
-        return true;
     }
 }

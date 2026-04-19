@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee709a8838df4b478597c387babe097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
-  itemDefinition: {fileID: 11400000, guid: 3456e4c37d7b429418c9f76b3ef5a9dc, type: 2}
+  itemDefinition: {fileID: 11400000, guid: 02cc0370654940b419c537a4991ff4fa, type: 2}
   quantity: 1
 --- !u!1 &3685644198636543241
 GameObject:

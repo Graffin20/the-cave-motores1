@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/Enemytest/NavMesh-Plane.asset.meta
+guid: b033b6b2cba7afa4c9bea6aa027fa3f7
+=======
+guid: 02cc0370654940b419c537a4991ff4fa
+>>>>>>> parent of 98f4a22 (Merge remote-tracking branch 'origin/playtest' into level-design---Gael/Eze):Assets/ItemDefinitions/Test (medkit).asset.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

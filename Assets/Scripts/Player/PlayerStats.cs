@@ -22,9 +22,4 @@ public class PlayerStats : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
     }
-
-    public bool IsHealthFull()
-    {
-        return currentHealth >= maxHealth;
-    }
 }

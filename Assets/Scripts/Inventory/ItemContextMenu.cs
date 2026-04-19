@@ -65,19 +65,14 @@ public class ItemContextMenu : MonoBehaviour
         var slot = InventoryManager.Instance.Slots[activeSlot];
         if (slot.IsEmpty) { Hide(); return; }
 
-        // AQUÍ ESTÁ LA MAGIA: Guardamos el resultado (true o false)
-        bool wasSuccessfullyUsed = slot.item.Use(player);
-
-        // Solo consumimos el ítem si realmente se usó con éxito
-        if (wasSuccessfullyUsed)
+        // Calls the overridden Use() on whatever ItemDefinition subtype this is.
+        // The item receives the player GameObject and can GetComponent<> whatever it needs.
+        slot.item.Use(player);
+        Debug.Log($"[Inventory] Used: {slot.item.itemName}");
+        if (slot.item.isConsumable)
         {
-            Debug.Log($"[Inventory] Used: {slot.item.itemName}");
-            if (slot.item.isConsumable)
-            {
-                var item = InventoryManager.Instance.RemoveFromSlot(activeSlot, 1);
-            }
+            var item = InventoryManager.Instance.RemoveFromSlot(activeSlot, 1);
         }
-
         Hide();
     }
 

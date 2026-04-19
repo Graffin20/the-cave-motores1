@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scenes/Enemytest.meta
+guid: eb9aff3b22497e440bc19650c2b507a3
+folderAsset: yes
+DefaultImporter:
+=======
+guid: 8a68c6bdef969fe48852a77c55716bfe
+NativeFormatImporter:
+>>>>>>> parent of 98f4a22 (Merge remote-tracking branch 'origin/playtest' into level-design---Gael/Eze):Assets/ItemDefinitions/TestItem.asset.meta
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

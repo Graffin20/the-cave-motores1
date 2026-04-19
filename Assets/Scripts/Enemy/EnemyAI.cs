@@ -1,124 +1,111 @@
 using UnityEngine;
-using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+public enum EnemyState
+{
+    Stalking,
+    Chasing,
+    Attacking,
+    Fleeing
+}
+
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Waypoints")]
-    public Transform[] waypoints;
+    [Header("Safe Zone")]
+    public bool isPlayerInSafeZone = false;
 
-    [Header("Look Settings")]
-    public float lookRotationSpeed = 5f;
+    [Header("Settings")]
+    [SerializeField] private EnemyState currentState = EnemyState.Stalking;
+    [SerializeField] private Transform target;
 
-    [Header("Cover")]
-    [Tooltip("Height offset from waypoint position used for line-of-sight checks (should match eye/chest height).")]
-    public float coverCheckHeight = 1.5f;
-    public LayerMask coverObstacleMask = ~0;
+    [Header("Distances")]
+    [SerializeField] private float chaseRange = 15f;
+    [SerializeField] private float attackRange = 2f;
 
-    private NavMeshAgent _agent;
+    [Header("Timers")]
+    [SerializeField] private float windowWaitTime = 10f;
+    [SerializeField] private float fleeingDuration = 4f;
+    private float windowTimer = 0f;
+
+    private EnemyMovement movement;
+    private EnemyAttack attack;
 
     void Awake()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        movement = GetComponent<EnemyMovement>();
+        attack = GetComponent<EnemyAttack>();
     }
 
-    // Moves to the waypoint closest to the given target.
-    public void MoveToNearestWaypointTo(Transform target)
+    void Update()
     {
-        if (waypoints == null || waypoints.Length == 0) return;
+        if (target == null) return;
 
-        Transform nearest = null;
-        float bestDist = Mathf.Infinity;
+        float distance = Vector3.Distance(transform.position, target.position);
 
-        foreach (Transform wp in waypoints)
+        switch (currentState)
         {
-            if (wp == null) continue;
-            float dist = Vector3.Distance(wp.position, target.position);
-            if (dist < bestDist)
-            {
-                bestDist = dist;
-                nearest = wp;
-            }
+            case EnemyState.Stalking:
+                movement.GoToWindow();
+
+                windowTimer += Time.deltaTime;
+
+                if (!isPlayerInSafeZone)
+                {
+                    if (windowTimer >= windowWaitTime || distance <= 5f)
+                    {
+                        ChangeState(EnemyState.Chasing);
+                    }
+                }
+                break;
+
+            case EnemyState.Chasing:
+                movement.ChasePlayer(target.position);
+
+                if (isPlayerInSafeZone)
+                {
+                    ChangeState(EnemyState.Stalking);
+                    break;
+                }
+
+                if (distance <= attackRange)
+                {
+                    ChangeState(EnemyState.Attacking);
+                }
+                break;
+
+            case EnemyState.Attacking:
+                movement.StopMoving();
+                attack.TryAttack(target);
+
+                if (distance > attackRange)
+                {
+                    ChangeState(EnemyState.Chasing);
+                }
+                break;
+
+            case EnemyState.Fleeing:
+                break;
         }
-
-        if (nearest != null)
-            MoveToPosition(nearest.position);
     }
 
-    // Moves to a specific world position.
-    public void MoveToPosition(Vector3 position)
+    private void ChangeState(EnemyState newState)
     {
-        _agent.isStopped = false;
-        _agent.SetDestination(position);
+        if (currentState == EnemyState.Stalking) windowTimer = 0f;
+
+        currentState = newState;
     }
 
-    // Stops all movement.
-    public void StandStill()
+    public void TakeHit()
     {
-        _agent.isStopped = true;
-        _agent.ResetPath();
+        if (currentState == EnemyState.Fleeing) return;
+
+        ChangeState(EnemyState.Fleeing);
+        movement.EscapeFrom(target.position);
+        Invoke(nameof(EndFleeing), fleeingDuration);
     }
 
-    // Smoothly rotates to face a target Transform each frame. Call from Update or a coroutine.
-    public void LookAtTarget(Transform target)
+    private void EndFleeing()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        direction.y = 0f;
-
-        if (direction == Vector3.zero) return;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookRotationSpeed * Time.deltaTime);
-    }
-
-    // Returns true when the agent has reached its destination (within stopping distance).
-    public bool HasReachedDestination()
-    {
-        if (_agent.pathPending) return false;
-        return _agent.remainingDistance <= _agent.stoppingDistance;
-    }
-
-    // Moves to the closest waypoint from which the player's line of sight is blocked by geometry.
-    // Falls back to the closest waypoint overall if no cover is found.
-    public void HideBehindCover(Transform player)
-    {
-        if (waypoints == null || waypoints.Length == 0) return;
-
-        Transform bestCover = null;
-        Transform closestFallback = null;
-        float bestCoverDist = Mathf.Infinity;
-        float bestFallbackDist = Mathf.Infinity;
-
-        Vector3 playerEyes = player.position + Vector3.up * coverCheckHeight;
-
-        foreach (Transform wp in waypoints)
-        {
-            if (wp == null) continue;
-
-            float distToEnemy = Vector3.Distance(wp.position, transform.position);
-
-            // Track closest waypoint overall as fallback.
-            if (distToEnemy < bestFallbackDist)
-            {
-                bestFallbackDist = distToEnemy;
-                closestFallback = wp;
-            }
-
-            // Cast from the waypoint toward the player. If something blocks it, the spot is valid cover.
-            Vector3 waypointEyes = wp.position + Vector3.up * coverCheckHeight;
-            Vector3 toPlayer = playerEyes - waypointEyes;
-
-            bool blocked = Physics.Raycast(waypointEyes, toPlayer.normalized, toPlayer.magnitude, coverObstacleMask);
-
-            if (blocked && distToEnemy < bestCoverDist)
-            {
-                bestCoverDist = distToEnemy;
-                bestCover = wp;
-            }
-        }
-
-        Transform destination = bestCover != null ? bestCover : closestFallback;
-        if (destination != null)
-            MoveToPosition(destination.position);
+        movement.RestoreSpeed();
+        ChangeState(EnemyState.Stalking);
     }
 }

@@ -9,9 +9,12 @@ public class NoteItem : ItemDefinition
 
     public override bool Use(GameObject player)
     {
-        if (NoteManager.Instance != null)
+        // Find the NoteManager in the scene to handle the UI
+        NoteManager noteManager = FindAnyObjectByType<NoteManager>();
+
+        if (noteManager != null)
         {
-            NoteManager.Instance.ShowNote(noteContent);
+            noteManager.ShowNote(noteContent);
             Debug.Log("Reading note: " + itemName);
             return true; // Tells the inventory it was successfully used
         }

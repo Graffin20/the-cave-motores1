@@ -1981,6 +1981,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4611409116106976258, guid: a6c7db62072848542b8a780896afbc6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6180149097772339075, guid: a6c7db62072848542b8a780896afbc6a, type: 3}
       propertyPath: m_DrawTreesAndFoliage
       value: 1

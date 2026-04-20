@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if (!value.isPressed || _isReloading || Time.time < _nextFireTime || (InventoryUI.Instance != null && InventoryUI.Instance._isOpen)) return;
+        if (!value.isPressed || _isReloading || Time.time < _nextFireTime || (InventoryUI.Instance != null && InventoryUI.Instance._isOpen) || PlayerStats.Instance.CurrentViewmodel != "Weapon") return;
 
         if (currentAmmo > 0)
             Fire();
@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
 
     void OnReload(InputValue value)
     {
-        if (value.isPressed)
+        if (value.isPressed && PlayerStats.Instance.CurrentViewmodel == "Weapon")
             TryReload();
     }
 

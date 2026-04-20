@@ -10,6 +10,12 @@ public class AmmoHUD : MonoBehaviour
     {
         if (weapon == null) return;
 
+        // Hide HUD when CurrentViewModel is not "Weapon"
+        bool isWeaponView = PlayerStats.Instance.CurrentViewmodel == "Weapon";
+        gameObject.SetActive(isWeaponView);
+
+        if (!isWeaponView) return;
+
         if (weapon.IsReloading)
         {
             ammoText.text = "RELOADING...";

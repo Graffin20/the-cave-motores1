@@ -84,9 +84,15 @@ public class ItemContextMenu : MonoBehaviour
     void DropItem()
     {
         if (activeSlot < 0) return;
-
         var item = InventoryManager.Instance.RemoveFromSlot(activeSlot, 1);
-        if (item != null) itemDropper.Drop(item);
+        if (item != null)
+        {
+            if (item.name == "Cellphone") 
+            {
+                PlayerStats.Instance.ChangeViewmodel("None");
+            }
+            itemDropper.Drop(item);
+        }
 
         Hide();
     }

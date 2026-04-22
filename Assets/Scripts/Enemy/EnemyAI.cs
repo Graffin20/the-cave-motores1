@@ -1,111 +1,106 @@
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
-public enum EnemyState
-{
-    Stalking,
-    Chasing,
-    Attacking,
-    Fleeing
-}
+public enum EnemyState { Waiting, AtWindow, Fleeing }
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Safe Zone")]
-    public bool isPlayerInSafeZone = false;
+    [Header("Configuration")]
+    [SerializeField] private EnemyState currentState = EnemyState.Waiting;
+    [SerializeField] private float timeToShoot = 2.0f;
+    [SerializeField] private float respawnCooldown = 10f;
 
-    [Header("Settings")]
-    [SerializeField] private EnemyState currentState = EnemyState.Stalking;
-    [SerializeField] private Transform target;
+    [Header("References")]
+    [SerializeField] private Transform[] windowPoints;
+    [SerializeField] private Transform escapePoint;
 
-    [Header("Distances")]
-    [SerializeField] private float chaseRange = 15f;
-    [SerializeField] private float attackRange = 2f;
-
-    [Header("Timers")]
-    [SerializeField] private float windowWaitTime = 10f;
-    [SerializeField] private float fleeingDuration = 4f;
-    private float windowTimer = 0f;
-
-    private EnemyMovement movement;
-    private EnemyAttack attack;
+    private float eventTimer = 0f;
+    private float cooldownTimer = 0f;
+    private NavMeshAgent agent;
+    private bool isPlayerInside = false;
 
     void Awake()
     {
-        movement = GetComponent<EnemyMovement>();
-        attack = GetComponent<EnemyAttack>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
     {
-        if (target == null) return;
-
-        float distance = Vector3.Distance(transform.position, target.position);
-
         switch (currentState)
         {
-            case EnemyState.Stalking:
-                movement.GoToWindow();
-
-                windowTimer += Time.deltaTime;
-
-                if (!isPlayerInSafeZone)
+            case EnemyState.Waiting:
+                if (isPlayerInside && cooldownTimer > 0)
                 {
-                    if (windowTimer >= windowWaitTime || distance <= 5f)
+                    cooldownTimer -= Time.deltaTime;
+                    if (cooldownTimer <= 0)
                     {
-                        ChangeState(EnemyState.Chasing);
+                        RandomSpawns();
                     }
                 }
                 break;
 
-            case EnemyState.Chasing:
-                movement.ChasePlayer(target.position);
+            case EnemyState.AtWindow:
+                eventTimer += Time.deltaTime;
+                transform.LookAt(Camera.main.transform);
 
-                if (isPlayerInSafeZone)
+                if (eventTimer >= timeToShoot)
                 {
-                    ChangeState(EnemyState.Stalking);
-                    break;
-                }
-
-                if (distance <= attackRange)
-                {
-                    ChangeState(EnemyState.Attacking);
-                }
-                break;
-
-            case EnemyState.Attacking:
-                movement.StopMoving();
-                attack.TryAttack(target);
-
-                if (distance > attackRange)
-                {
-                    ChangeState(EnemyState.Chasing);
+                    GameOver();
                 }
                 break;
 
             case EnemyState.Fleeing:
+                if (!agent.pathPending && agent.remainingDistance < 1.5f)
+                {
+                    HideEnemy();
+                }
                 break;
         }
     }
 
-    private void ChangeState(EnemyState newState)
+    public void StartSpawns()
     {
-        if (currentState == EnemyState.Stalking) windowTimer = 0f;
+        if (!isPlayerInside)
+        {
+            isPlayerInside = true;
+            RandomSpawns();
+        }
+    }
 
-        currentState = newState;
+    private void RandomSpawns()
+    {
+        if (windowPoints.Length == 0) return;
+
+        int randomIndex = Random.Range(0, windowPoints.Length);
+        Transform targetWindow = windowPoints[randomIndex];
+
+        eventTimer = 0f;
+        currentState = EnemyState.AtWindow;
+
+        transform.position = targetWindow.position;
+        agent.enabled = true;
     }
 
     public void TakeHit()
     {
-        if (currentState == EnemyState.Fleeing) return;
-
-        ChangeState(EnemyState.Fleeing);
-        movement.EscapeFrom(target.position);
-        Invoke(nameof(EndFleeing), fleeingDuration);
+        if (currentState == EnemyState.AtWindow)
+        {
+            currentState = EnemyState.Fleeing;
+            agent.SetDestination(escapePoint.position);
+        }
     }
 
-    private void EndFleeing()
+    private void HideEnemy()
     {
-        movement.RestoreSpeed();
-        ChangeState(EnemyState.Stalking);
+        currentState = EnemyState.Waiting;
+        agent.enabled = false;
+        transform.position = new Vector3(0, -100, 0);
+        cooldownTimer = respawnCooldown;
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

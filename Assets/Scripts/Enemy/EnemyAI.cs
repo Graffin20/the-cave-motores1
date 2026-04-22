@@ -1,106 +1,66 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
-public enum EnemyState { Waiting, AtWindow, Fleeing }
+public enum StateID { Waiting, AtWindow, Fleeing }
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] private EnemyState currentState = EnemyState.Waiting;
-    [SerializeField] private float timeToShoot = 2.0f;
-    [SerializeField] private float respawnCooldown = 10f;
+    [Header("Configuración")]
+    public EnemyStats stats;
 
-    [Header("References")]
-    [SerializeField] private Transform[] windowPoints;
-    [SerializeField] private Transform escapePoint;
+    [Header("Referencias de Entorno")]
+    public Transform[] windowPoints;
+    public Transform escapePoint;
 
-    private float eventTimer = 0f;
-    private float cooldownTimer = 0f;
-    private NavMeshAgent agent;
-    private bool isPlayerInside = false;
+    [Header("Banderas de Estado")]
+    public bool isPlayerInside = false;
+    public bool gotShot = false;
+    public bool firstspawn = false;
 
-    void Awake()
+    public NavMeshAgent Agent { get; private set; }
+
+    private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();
+    private EnemyState _currentState;
+
+    private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<NavMeshAgent>();
+
+        _states.Add(StateID.Waiting, new StateWaiting());
+        _states.Add(StateID.AtWindow, new StateAtWindow());
+        _states.Add(StateID.Fleeing, new StateFleeing());
     }
 
-    void Update()
+    private void Start()
     {
-        switch (currentState)
+        _currentState = _states[StateID.Waiting];
+        _currentState.Enter(this);
+    }
+
+    private void Update()
+    {
+        if (_currentState != null)
         {
-            case EnemyState.Waiting:
-                if (isPlayerInside && cooldownTimer > 0)
-                {
-                    cooldownTimer -= Time.deltaTime;
-                    if (cooldownTimer <= 0)
-                    {
-                        RandomSpawns();
-                    }
-                }
-                break;
+            EnemyState newState = _currentState.Update(this);
 
-            case EnemyState.AtWindow:
-                eventTimer += Time.deltaTime;
-                transform.LookAt(Camera.main.transform);
-
-                if (eventTimer >= timeToShoot)
-                {
-                    GameOver();
-                }
-                break;
-
-            case EnemyState.Fleeing:
-                if (!agent.pathPending && agent.remainingDistance < 1.5f)
-                {
-                    HideEnemy();
-                }
-                break;
+            if (newState != null)
+            {
+                _currentState = newState;
+                _currentState.Enter(this);
+            } 
         }
     }
-
+    public EnemyState GetState(StateID id)
+    {
+        return _states[id];
+    }
     public void StartSpawns()
     {
-        if (!isPlayerInside)
-        {
-            isPlayerInside = true;
-            RandomSpawns();
-        }
+        isPlayerInside = true;
     }
-
-    private void RandomSpawns()
-    {
-        if (windowPoints.Length == 0) return;
-
-        int randomIndex = Random.Range(0, windowPoints.Length);
-        Transform targetWindow = windowPoints[randomIndex];
-
-        eventTimer = 0f;
-        currentState = EnemyState.AtWindow;
-
-        transform.position = targetWindow.position;
-        agent.enabled = true;
-    }
-
     public void TakeHit()
     {
-        if (currentState == EnemyState.AtWindow)
-        {
-            currentState = EnemyState.Fleeing;
-            agent.SetDestination(escapePoint.position);
-        }
-    }
-
-    private void HideEnemy()
-    {
-        currentState = EnemyState.Waiting;
-        agent.enabled = false;
-        transform.position = new Vector3(0, -100, 0);
-        cooldownTimer = respawnCooldown;
-    }
-
-    private void GameOver()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gotShot = true;
     }
 }

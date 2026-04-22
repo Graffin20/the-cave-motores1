@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefb17c52c980dd47bf8e5c18b4439d1, type: 3}
+  m_Name: Office_Note
+  m_EditorClassIdentifier: Assembly-CSharp::NoteItem
+  itemName: Note
+  description: 
+  icon: {fileID: 0}
+  isUsable: 1
+  isStackable: 0
+  isConsumable: 0
+  maxStackSize: 1
+  worldPrefab: {fileID: 8220713276160656293, guid: 89b3900cc584c0541acec2d8929f41da, type: 3}
+  noteMessage: WATCH OUT

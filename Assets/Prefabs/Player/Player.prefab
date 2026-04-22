@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: -2759444452433653682}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,8 +92,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5082586107441503360}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.763, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -479.6331, y: 2.0448, z: -1092.836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -209,6 +209,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 50
   currentHealth: 30
+  viewmodelEntries:
+  - name: Weapon
+    viewmodel: {fileID: 0}
+  - name: Cellphone
+    viewmodel: {fileID: 0}
+  - name: None
+    viewmodel: {fileID: 0}
+  currentViewModel: {fileID: 0}
 --- !u!1 &7397996696385394470
 GameObject:
   m_ObjectHideFlags: 0

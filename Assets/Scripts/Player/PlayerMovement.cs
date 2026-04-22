@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class FirstPersonController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
@@ -10,6 +10,7 @@ public class FirstPersonController : MonoBehaviour
 
     [Header("References")]
     public Transform cameraTransform;
+    public Animator[] viewmodelAnimators;
 
     private CharacterController _cc;
     private Vector3 _velocity;
@@ -38,6 +39,13 @@ public class FirstPersonController : MonoBehaviour
 
         if (move.magnitude > 1f)
             move.Normalize();
+
+        bool isMoving = move.magnitude > 0f;
+        foreach (Animator animator in viewmodelAnimators)
+        {
+            if (animator != null)
+                animator.SetBool("Walk", isMoving);
+        }
 
         _cc.Move(move * moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f);

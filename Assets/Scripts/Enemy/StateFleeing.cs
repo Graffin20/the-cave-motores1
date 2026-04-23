@@ -6,8 +6,7 @@ public class StateFleeing : EnemyState
     {
         if (enemy.anim != null)
         {
-            enemy.anim.SetTrigger("Walk");
-
+          enemy.anim.SetTrigger("Walk");
         }
         enemy.Agent.enabled = true;
         enemy.Agent.ResetPath();
@@ -20,7 +19,14 @@ public class StateFleeing : EnemyState
         {
             return enemy.GetState(StateID.Waiting);
         }
-
         return null;
+    }
+    public override void Exit(EnemyAI enemy)
+    {
+        if (enemy.Agent.isOnNavMesh)
+        {
+            enemy.Agent.ResetPath();
+        }
+        enemy.gotShot = false;
     }
 }

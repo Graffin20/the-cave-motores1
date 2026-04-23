@@ -7,7 +7,9 @@ public class StateWaiting : EnemyState
     public override void Enter(EnemyAI enemy)
     {
         if (enemy.anim != null)
+        {
             enemy.anim.SetTrigger("Idle");
+        }
 
         if (enemy.firstspawn)
         {
@@ -24,7 +26,10 @@ public class StateWaiting : EnemyState
 
     public override EnemyState Update(EnemyAI enemy)
     {
-        if (!enemy.isPlayerInside) return null;
+        if (!enemy.isPlayerInside)
+        {
+            return null;
+        }
 
         timer -= Time.deltaTime;
 
@@ -35,5 +40,9 @@ public class StateWaiting : EnemyState
         }
 
         return null;
+    }
+
+    public override void Exit(EnemyAI enemy)
+    {
     }
 }

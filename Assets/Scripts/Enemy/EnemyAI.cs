@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public enum StateID { Waiting, AtWindow, Fleeing }
 
 public class EnemyAI : MonoBehaviour
 {
+
+    public UnityEvent shotreceived;
+
     [Header("Configuración")]
     public EnemyStats stats;
 
@@ -13,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     public Transform[] windowPoints;
     public Transform escapePoint;
 
-    [Header("Banderas de Estado")]
+    [Header("Banderas")]
     public bool isPlayerInside = false;
     public bool gotShot = false;
     public bool firstspawn = false;
@@ -47,23 +51,29 @@ public class EnemyAI : MonoBehaviour
         {
             EnemyState newState = _currentState.Update(this);
 
-            if (newState != null)
+            if (newState != null && newState != _currentState)
             {
+                _currentState.Exit(this);
+
                 _currentState = newState;
                 _currentState.Enter(this);
-            } 
+            }
         }
     }
+
     public EnemyState GetState(StateID id)
     {
         return _states[id];
     }
+
     public void StartSpawns()
     {
         isPlayerInside = true;
     }
+
     public void TakeHit()
     {
         gotShot = true;
+        shotreceived.Invoke();
     }
 }

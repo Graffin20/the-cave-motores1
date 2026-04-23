@@ -10,19 +10,20 @@ public class StateAtWindow : EnemyState
         {
             enemy.anim.SetTrigger("Idle");
         }
+
         timer = 0f;
         enemy.gotShot = false;
 
         if (enemy.windowPoints.Length > 0)
         {
             Transform targetWindow = enemy.windowPoints[Random.Range(0, enemy.windowPoints.Length)];
+            enemy.Agent.enabled = false;
             enemy.transform.position = targetWindow.position;
+            enemy.Agent.enabled = true;
 
             if (Camera.main != null)
                 enemy.transform.LookAt(Camera.main.transform);
         }
-
-        enemy.Agent.enabled = true;
     }
 
     public override EnemyState Update(EnemyAI enemy)
@@ -44,5 +45,11 @@ public class StateAtWindow : EnemyState
         }
 
         return null;
+    }
+
+    public override void Exit(EnemyAI enemy)
+    {
+        enemy.gotShot = false;
+        timer = 0f;
     }
 }

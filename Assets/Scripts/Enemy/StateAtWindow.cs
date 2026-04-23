@@ -6,6 +6,10 @@ public class StateAtWindow : EnemyState
 
     public override void Enter(EnemyAI enemy)
     {
+        if (enemy.anim != null)
+        {
+            enemy.anim.SetTrigger("Idle");
+        }
         timer = 0f;
         enemy.gotShot = false;
 

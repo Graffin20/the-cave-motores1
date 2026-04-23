@@ -18,6 +18,9 @@ public class EnemyAI : MonoBehaviour
     public bool gotShot = false;
     public bool firstspawn = false;
 
+    [Header("Animación")]
+    public Animator anim;
+
     public NavMeshAgent Agent { get; private set; }
 
     private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();

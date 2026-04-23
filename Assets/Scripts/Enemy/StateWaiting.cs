@@ -6,6 +6,9 @@ public class StateWaiting : EnemyState
 
     public override void Enter(EnemyAI enemy)
     {
+        if (enemy.anim != null)
+            enemy.anim.SetTrigger("Idle");
+
         if (enemy.firstspawn)
         {
             timer = enemy.stats.respawnCooldown;

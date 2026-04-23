@@ -4,6 +4,11 @@ public class StateFleeing : EnemyState
 {
     public override void Enter(EnemyAI enemy)
     {
+        if (enemy.anim != null)
+        {
+            enemy.anim.SetTrigger("Walk");
+
+        }
         enemy.Agent.enabled = true;
         enemy.Agent.ResetPath();
         enemy.Agent.SetDestination(enemy.escapePoint.position);

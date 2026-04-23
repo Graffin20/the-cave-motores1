@@ -5,11 +5,14 @@ TagManager:
   serializedVersion: 3
   tags:
   - Note
+  - Ground
+  - Wood
+  - Grass
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Viewmodel

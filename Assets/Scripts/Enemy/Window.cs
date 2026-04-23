@@ -6,7 +6,7 @@ public class Window : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EnemyAI enemy = FindFirstObjectByType<EnemyAI>();
+            EnemyAI enemy = FindAnyObjectByType<EnemyAI>();
 
             if (enemy != null)
             {

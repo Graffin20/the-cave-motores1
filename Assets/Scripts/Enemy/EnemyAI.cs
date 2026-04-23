@@ -1,111 +1,69 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public enum EnemyState
-{
-    Stalking,
-    Chasing,
-    Attacking,
-    Fleeing
-}
+public enum StateID { Waiting, AtWindow, Fleeing }
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("Safe Zone")]
-    public bool isPlayerInSafeZone = false;
+    [Header("Configuración")]
+    public EnemyStats stats;
 
-    [Header("Settings")]
-    [SerializeField] private EnemyState currentState = EnemyState.Stalking;
-    [SerializeField] private Transform target;
+    [Header("Referencias de Entorno")]
+    public Transform[] windowPoints;
+    public Transform escapePoint;
 
-    [Header("Distances")]
-    [SerializeField] private float chaseRange = 15f;
-    [SerializeField] private float attackRange = 2f;
+    [Header("Banderas de Estado")]
+    public bool isPlayerInside = false;
+    public bool gotShot = false;
+    public bool firstspawn = false;
 
-    [Header("Timers")]
-    [SerializeField] private float windowWaitTime = 10f;
-    [SerializeField] private float fleeingDuration = 4f;
-    private float windowTimer = 0f;
+    [Header("Animación")]
+    public Animator anim;
 
-    private EnemyMovement movement;
-    private EnemyAttack attack;
+    public NavMeshAgent Agent { get; private set; }
 
-    void Awake()
+    private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();
+    private EnemyState _currentState;
+
+    private void Awake()
     {
-        movement = GetComponent<EnemyMovement>();
-        attack = GetComponent<EnemyAttack>();
+        Agent = GetComponent<NavMeshAgent>();
+
+        _states.Add(StateID.Waiting, new StateWaiting());
+        _states.Add(StateID.AtWindow, new StateAtWindow());
+        _states.Add(StateID.Fleeing, new StateFleeing());
     }
 
-    void Update()
+    private void Start()
     {
-        if (target == null) return;
+        _currentState = _states[StateID.Waiting];
+        _currentState.Enter(this);
+    }
 
-        float distance = Vector3.Distance(transform.position, target.position);
-
-        switch (currentState)
+    private void Update()
+    {
+        if (_currentState != null)
         {
-            case EnemyState.Stalking:
-                movement.GoToWindow();
+            EnemyState newState = _currentState.Update(this);
 
-                windowTimer += Time.deltaTime;
-
-                if (!isPlayerInSafeZone)
-                {
-                    if (windowTimer >= windowWaitTime || distance <= 5f)
-                    {
-                        ChangeState(EnemyState.Chasing);
-                    }
-                }
-                break;
-
-            case EnemyState.Chasing:
-                movement.ChasePlayer(target.position);
-
-                if (isPlayerInSafeZone)
-                {
-                    ChangeState(EnemyState.Stalking);
-                    break;
-                }
-
-                if (distance <= attackRange)
-                {
-                    ChangeState(EnemyState.Attacking);
-                }
-                break;
-
-            case EnemyState.Attacking:
-                movement.StopMoving();
-                attack.TryAttack(target);
-
-                if (distance > attackRange)
-                {
-                    ChangeState(EnemyState.Chasing);
-                }
-                break;
-
-            case EnemyState.Fleeing:
-                break;
+            if (newState != null)
+            {
+                _currentState = newState;
+                _currentState.Enter(this);
+            } 
         }
     }
-
-    private void ChangeState(EnemyState newState)
+    public EnemyState GetState(StateID id)
     {
-        if (currentState == EnemyState.Stalking) windowTimer = 0f;
-
-        currentState = newState;
+        return _states[id];
     }
-
+    public void StartSpawns()
+    {
+        isPlayerInside = true;
+    }
     public void TakeHit()
     {
-        if (currentState == EnemyState.Fleeing) return;
-
-        ChangeState(EnemyState.Fleeing);
-        movement.EscapeFrom(target.position);
-        Invoke(nameof(EndFleeing), fleeingDuration);
-    }
-
-    private void EndFleeing()
-    {
-        movement.RestoreSpeed();
-        ChangeState(EnemyState.Stalking);
+        gotShot = true;
     }
 }

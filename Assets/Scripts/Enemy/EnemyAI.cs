@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Referencias de Entorno")]
     public Transform[] windowPoints;
-    public Transform escapePoint;
+    public Transform[] escapePoints;
 
     [Header("Banderas")]
     public bool isPlayerInside = false;

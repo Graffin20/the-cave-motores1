@@ -17,12 +17,18 @@ public class StateAtWindow : EnemyState
         if (enemy.windowPoints.Length > 0)
         {
             Transform targetWindow = enemy.windowPoints[Random.Range(0, enemy.windowPoints.Length)];
+
             enemy.Agent.enabled = false;
             enemy.transform.position = targetWindow.position;
             enemy.Agent.enabled = true;
 
+            Debug.Log("El monstruo acaba de aparecer en: " + targetWindow.name);
+
             if (Camera.main != null)
-                enemy.transform.LookAt(Camera.main.transform);
+            {
+                Vector3 targetPosition = new Vector3(Camera.main.transform.position.x, enemy.transform.position.y, Camera.main.transform.position.z);
+                enemy.transform.LookAt(targetPosition);
+            }
         }
     }
 
@@ -36,7 +42,10 @@ public class StateAtWindow : EnemyState
         timer += Time.deltaTime;
 
         if (Camera.main != null)
-            enemy.transform.LookAt(Camera.main.transform);
+        {
+            Vector3 targetPosition = new Vector3(Camera.main.transform.position.x, enemy.transform.position.y, Camera.main.transform.position.z);
+            enemy.transform.LookAt(targetPosition);
+        }
 
         if (timer >= enemy.stats.timeToShoot)
         {

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45a9dc33abea634183428da4fc3bf5e, type: 3}
   m_Name: EnemyData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  Firstspawntime: 4
-  timeToShoot: 3
-  respawnCooldown: 2
+  Firstspawntime: 8
+  timeToShoot: 5
+  respawnCooldown: 5

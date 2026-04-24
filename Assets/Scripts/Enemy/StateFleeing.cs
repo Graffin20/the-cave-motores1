@@ -6,11 +6,34 @@ public class StateFleeing : EnemyState
     {
         if (enemy.anim != null)
         {
-          enemy.anim.SetTrigger("Walk");
+            enemy.anim.SetTrigger("Walk");
         }
+
         enemy.Agent.enabled = true;
         enemy.Agent.ResetPath();
-        enemy.Agent.SetDestination(enemy.escapePoint.position);
+
+        if (enemy.escapePoints != null && enemy.escapePoints.Length > 0)
+        {
+            Transform closestPoint = null;
+            float minDistance = Mathf.Infinity;
+            Vector3 currentPosition = enemy.transform.position;
+
+            foreach (Transform point in enemy.escapePoints)
+            {
+                float distance = Vector3.Distance(currentPosition, point.position);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestPoint = point;
+                }
+            }
+
+            if (closestPoint != null)
+            {
+                enemy.Agent.SetDestination(closestPoint.position);
+            }
+        }
     }
 
     public override EnemyState Update(EnemyAI enemy)
@@ -21,6 +44,7 @@ public class StateFleeing : EnemyState
         }
         return null;
     }
+
     public override void Exit(EnemyAI enemy)
     {
         if (enemy.Agent.isOnNavMesh)

@@ -68156,7 +68156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   magazineSize: 6
-  reserveAmmo: 18
+  reserveAmmo: 0
   currentAmmo: 6
   fireRate: 10
   reloadTime: 2

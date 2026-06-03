@@ -8,7 +8,7 @@ public class StateAtWindow : EnemyState
     {
         if (enemy.anim != null)
         {
-            enemy.anim.SetTrigger("Idle");
+            enemy.anim.SetTrigger("Roar");
         }
 
         timer = 0f;
@@ -20,6 +20,8 @@ public class StateAtWindow : EnemyState
             enemy.Agent.enabled = false;
             enemy.transform.position = targetWindow.position;
             enemy.Agent.enabled = true;
+
+          
 
             if (Camera.main != null)
                 enemy.transform.LookAt(Camera.main.transform);

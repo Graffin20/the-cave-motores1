@@ -6,51 +6,51 @@ public class StateFleeing : EnemyState
     {
         if (enemy.anim != null)
         {
-            enemy.anim.SetTrigger("Walk");
+            enemy.anim.SetTrigger("damage");
         }
 
-        enemy.Agent.enabled = true;
-        enemy.Agent.ResetPath();
-
-        if (enemy.escapePoints != null && enemy.escapePoints.Length > 0)
+        if (enemy.shotreceived != null)
         {
-            Transform closestPoint = null;
-            float minDistance = Mathf.Infinity;
-            Vector3 currentPosition = enemy.transform.position;
+            enemy.shotreceived.Invoke();
+        }
 
-            foreach (Transform point in enemy.escapePoints)
-            {
-                float distance = Vector3.Distance(currentPosition, point.position);
+        if (enemy.Agent != null)
+        {
+            enemy.Agent.enabled = true;
+            enemy.Agent.speed = 8f;
 
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestPoint = point;
-                }
-            }
-
-            if (closestPoint != null)
-            {
-                enemy.Agent.SetDestination(closestPoint.position);
-            }
+            enemy.Agent.ResetPath();
+            enemy.Agent.SetDestination(enemy.escapePoint.position);
         }
     }
 
     public override EnemyState Update(EnemyAI enemy)
     {
-        if (!enemy.Agent.pathPending && enemy.Agent.remainingDistance <= 1.5f)
+        if (enemy.Agent != null && enemy.Agent.isOnNavMesh)
         {
-            return enemy.GetState(StateID.Waiting);
+            bool reachedDestination = enemy.Agent.remainingDistance <= 2.5f;
+            bool isStuck = enemy.Agent.velocity.sqrMagnitude < 0.1f && enemy.Agent.remainingDistance <= 4f;
+
+            if (!enemy.Agent.pathPending && (reachedDestination || isStuck))
+            {
+                return enemy.GetState(StateID.Waiting);
+            }
         }
         return null;
     }
 
     public override void Exit(EnemyAI enemy)
     {
-        if (enemy.Agent.isOnNavMesh)
+        if (enemy.Agent != null && enemy.Agent.isOnNavMesh)
         {
             enemy.Agent.ResetPath();
         }
+
+        if (enemy.Agent != null)
+        {
+            enemy.Agent.speed = 3.5f;
+        }
+
         enemy.gotShot = false;
     }
 }

@@ -4,7 +4,13 @@ using UnityEngine;
 public class EnemyStats : ScriptableObject
 {
     [Header("Tiempos")]
-    public float Firstspawntime = 10f;
-    public float timeToShoot = 2.0f;
-    public float respawnCooldown = 10f;
+    public float Firstspawntime;
+    public float timeToShoot;
+    public float respawnCooldown;
+    public float FollowSpeed;
+    public float Stuntime;
+    public float roartime;
+
+    [Header("Sonidos que uso en codigo")]
+    public AudioClip sfxSpawn;
 }

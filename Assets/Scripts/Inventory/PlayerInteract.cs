@@ -15,9 +15,10 @@ public class PlayerInteract : MonoBehaviour
     // or assign via code if you prefer.
     public InputActionReference interactAction;
 
-    ItemPickup _currentTarget;
 
-    void OnEnable()  => interactAction.action.performed += OnInteract;
+    IInteractable _currentTarget;
+
+    void OnEnable() => interactAction.action.performed += OnInteract;
     void OnDisable() => interactAction.action.performed -= OnInteract;
 
     void Update()
@@ -28,7 +29,7 @@ public class PlayerInteract : MonoBehaviour
         Vector3 capsuleEnd = transform.position + transform.forward * 0.3f;
 
         _currentTarget = Physics.CapsuleCast(capsuleStart, capsuleEnd, capsuleRadius, transform.forward, out RaycastHit hit, interactRange, interactMask, QueryTriggerInteraction.UseGlobal)
-            ? hit.collider.GetComponent<ItemPickup>()
+            ? hit.collider.GetComponent<IInteractable>()
             : null;
     }
 
@@ -43,8 +44,9 @@ public class PlayerInteract : MonoBehaviour
         Vector3 capsuleStart = transform.position;
         Vector3 capsuleEnd = transform.position + transform.forward * 0.3f;
 
+        // 3. CAMBIO: En el Gizmo también buscamos GetComponent<IInteractable>()
         bool hitInteractable = Physics.CapsuleCast(capsuleStart, capsuleEnd, capsuleRadius, transform.forward, out RaycastHit hit, interactRange, interactMask, QueryTriggerInteraction.UseGlobal)
-            && hit.collider.GetComponent<ItemPickup>() != null;
+            && hit.collider.GetComponent<IInteractable>() != null;
 
         Gizmos.color = hitInteractable ? Color.green : Color.red;
 
@@ -62,7 +64,6 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    // Optional: expose for a HUD crosshair prompt.
     public bool IsLookingAtItem => _currentTarget != null;
-    public string TargetItemName => _currentTarget?.itemDefinition?.itemName ?? "";
+    public string TargetItemName => _currentTarget?.GetInteractPrompt() ?? "";
 }

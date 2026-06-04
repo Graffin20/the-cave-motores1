@@ -31,7 +31,6 @@ public class NoteManager : MonoBehaviour
             noteTextUI.text = textToDisplay;
             noteCanvasPanel.SetActive(true);
 
-            //Marks that the note is open
             isNoteOpen = true;
         }
     }
@@ -42,7 +41,6 @@ public class NoteManager : MonoBehaviour
         {
             noteCanvasPanel.SetActive(false);
 
-            //Marks that the note was closed
             isNoteOpen = false;
         }
     }

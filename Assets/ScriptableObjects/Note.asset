@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b36b42d562e9084e85879f8009d7e67, type: 3}
-  m_Name: Kitchen_Note
+  m_Name: Note
   m_EditorClassIdentifier: Assembly-CSharp::NoteItem
   itemName: Mysterious Note
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 1485116360, guid: db5589ed08198dc4c8885d0eb84fd0c5, type: 3}
   isUsable: 1
   isStackable: 0
   isConsumable: 0
   maxStackSize: 1
-  worldPrefab: {fileID: 4850277297779412784, guid: 00877bb59e79e274eba41c9713ac10c1, type: 3}
-  noteContent: USE THE AMMO
+  worldPrefab: {fileID: 3110779171663168695, guid: 24b53245be7764642a723a4a26ee5bdb, type: 3}
+  noteContent: "Contrase\xF1a de Wifi\n7777"

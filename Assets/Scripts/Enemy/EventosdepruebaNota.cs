@@ -1,59 +1,41 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
-public class EventosdepruebaNota : MonoBehaviour
+public class EventodepruebaNota : MonoBehaviour, IInteractable
 {
-    public GameObject textoUI; // Este es el "Click para iniciar" (SpawnMonster)
+    [Header("Configuración del Enemigo")]
+
+    public EnemyStats EnemyStats;
 
     [Header("Eventos")]
     public UnityEvent OnNotePlaced;
 
-    private void Start()
+    public void Interact()
     {
-        if (textoUI != null)
-        {
-            textoUI.SetActive(false);
-        }
+        // 1. Llamamos al diálogo
+        string[] dialogo = { "Ese sonido vino de abajo..." };
+
+        PopUpText.instance.MostrarDialogo(dialogo, () => {
+
+            if (EnemyStats != null)
+            {
+                StartCoroutine(EsperarYSpawnear(EnemyStats.Firstspawntime));
+            }
+        });
+
+        GetComponent<Collider>().enabled = false;
     }
 
-    private void OnMouseEnter()
+    private IEnumerator EsperarYSpawnear(float tiempoDeEspera)
     {
-        if (textoUI != null)
-        {
-            textoUI.SetActive(true);
-        }
+        yield return new WaitForSeconds(tiempoDeEspera);
+
+        OnNotePlaced?.Invoke();
     }
 
-    private void OnMouseExit()
+    public string GetInteractPrompt()
     {
-        if (textoUI != null)
-        {
-            textoUI.SetActive(false);
-        }
-    }
-
-    private void OnMouseDown()
-    {
-        // 1. LLAMAMOS AL PANEL DE TEXTO (PopUpText)
-        if (PopUpText.instance != null)
-        {
-            PopUpText.instance.MostrarMensaje("Ese sonido vino de abajo...");
-        }
-
-        // 2. DISPARAMOS EL EVENTO (Aquí es donde probablemente se activa el spawn del enemigo)
-        OnNotePlaced.Invoke();
-
-        // 3. LIMPIEZA
-        if (textoUI != null)
-        {
-            textoUI.SetActive(false);
-        }
-
-        // Desactivamos este script para que no se pueda clickear de nuevo
-        this.enabled = false;
-
-        // OPCIONAL: Si el objeto tiene un collider y no quieres que se 
-        // pueda clickear NADA más de este objeto, podrías usar:
-        // GetComponent<Collider>().enabled = false;
+        return "Leer";
     }
 }

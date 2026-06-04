@@ -28,6 +28,10 @@ public class EnemyAI : MonoBehaviour
     [Header("Animation")]
     public Animator anim;
 
+    [Header("Combat")]
+    public Transform attackPoint;
+    public float attackRange = 1.5f;
+    public LayerMask playerLayer;
     public NavMeshAgent Agent { get; private set; }
 
     private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();
@@ -110,9 +114,30 @@ public class EnemyAI : MonoBehaviour
 
     public void PlayWalkSound()
     {
-        if (walkEvent != null)
+        if (walkEvent != null) walkEvent.Invoke();
+
+        if (audioSource != null && stats.footstepSounds != null && stats.footstepSounds.Length > 0)
         {
-            walkEvent.Invoke();
+            AudioClip randomStep = stats.footstepSounds[Random.Range(0, stats.footstepSounds.Length)];
+            audioSource.PlayOneShot(randomStep);
+        }
+    }
+
+    public void PlayAttackSound()
+    {
+        if (audioSource != null && stats.sfxAttacks != null && stats.sfxAttacks.Length > 0)
+        {
+            AudioClip randomAttack = stats.sfxAttacks[Random.Range(0, stats.sfxAttacks.Length)];
+            audioSource.PlayOneShot(randomAttack);
+        }
+    }
+
+    public void PlayDeathSound()
+    {
+        if (audioSource != null && stats.sfxDeath != null && stats.sfxDeath.Length > 0)
+        {
+            AudioClip randomDeath = stats.sfxDeath[Random.Range(0, stats.sfxDeath.Length)];
+            audioSource.PlayOneShot(randomDeath);
         }
     }
 
@@ -124,5 +149,25 @@ public class EnemyAI : MonoBehaviour
         {
             shotreceived.Invoke();
         }
+    }
+
+    public void DealDamage()
+    {
+        if (attackPoint == null) return;
+
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, playerLayer);
+
+        foreach (Collider hit in hitEnemies)
+        {
+            
+            Debug.Log("Decime que anda por favor");
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

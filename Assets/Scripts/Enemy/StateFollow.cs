@@ -24,7 +24,7 @@ public class StateFollow : EnemyState
         {
             enemy.Agent.enabled = true;
             enemy.Agent.speed = 0f;
-            enemy.Agent.stoppingDistance = 3f;
+            enemy.Agent.stoppingDistance = 2.6f;
         }
 
         enemy.gotShot = false;
@@ -92,8 +92,14 @@ public class StateFollow : EnemyState
                 enemy.transform.LookAt(lookPos);
 
                 attackCooldown -= Time.deltaTime;
+
                 if (attackCooldown <= 0)
                 {
+                    if (enemy.anim != null)
+                    {
+                        enemy.anim.SetTrigger("Attack");
+                    }
+
                     attackCooldown = 2f;
                 }
             }

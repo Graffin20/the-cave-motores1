@@ -20,7 +20,14 @@ public class StateFleeing : EnemyState
             enemy.Agent.speed = 8f;
 
             enemy.Agent.ResetPath();
-            enemy.Agent.SetDestination(enemy.escapePoint.position);
+
+            if (enemy.escapePoints.Length > 0)
+            {
+          
+                Transform randomEscape = enemy.escapePoints[Random.Range(0, enemy.escapePoints.Length)];
+                enemy.Agent.SetDestination(randomEscape.position);
+            }
+          
         }
     }
 

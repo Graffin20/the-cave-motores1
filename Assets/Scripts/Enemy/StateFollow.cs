@@ -24,7 +24,7 @@ public class StateFollow : EnemyState
         {
             enemy.Agent.enabled = true;
             enemy.Agent.speed = 0f;
-            enemy.Agent.stoppingDistance = 1.5f;
+            enemy.Agent.stoppingDistance = 3f;
         }
 
         enemy.gotShot = false;

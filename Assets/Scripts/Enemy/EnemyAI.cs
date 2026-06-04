@@ -18,7 +18,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Environment References")]
     public Transform[] windowPoints;
-    public Transform escapePoint;
+    public Transform[] escapePoints;
 
     [Header("Flags")]
     public bool isPlayerInside = false;
@@ -159,7 +159,7 @@ public class EnemyAI : MonoBehaviour
 
         foreach (Collider hit in hitEnemies)
         {
-            
+
             Debug.Log("Decime que anda por favor");
         }
     }

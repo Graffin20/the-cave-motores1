@@ -11,6 +11,10 @@ public class EnemyStats : ScriptableObject
     public float Stuntime;
     public float roartime;
 
-    [Header("Sonidos que uso en codigo")]
+    [Header("Sonidos")]
     public AudioClip sfxSpawn;
+    public AudioClip sfxDamage;
+    public AudioClip[] sfxAttacks;
+    public AudioClip[] footstepSounds;
+    public AudioClip[] sfxDeath;
 }

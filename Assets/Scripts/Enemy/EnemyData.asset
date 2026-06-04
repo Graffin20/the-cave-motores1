@@ -19,3 +19,8 @@ MonoBehaviour:
   Stuntime: 2
   roartime: 4.12
   sfxSpawn: {fileID: 8300000, guid: bc2baab908f1b004691a6ecf7044f61c, type: 3}
+  sfxDamage: {fileID: 0}
+  sfxAttacks: []
+  footstepSounds: []
+  sfxDeath:
+  - {fileID: 8300000, guid: d3ef78cfe3f61ad4083037836f052c4f, type: 3}

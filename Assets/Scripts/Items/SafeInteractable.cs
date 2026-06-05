@@ -12,7 +12,7 @@ public class SafeInteractable : MonoBehaviour, IInteractable
     public void UnlockSafe()
     {
         isLocked = false;
-        BotonPrueba.iPhase2 = true;
+        ReloadLevel.isPhase2Active = true;
     }
 
     public void Interact()

@@ -129,7 +129,22 @@ public class InventoryManager : MonoBehaviour
             if (slot.item == item) total += slot.quantity;
         return total;
     }
+
+    public void ClearInventory()
+    {
+        if (Slots == null) return;
+
+        foreach (var slot in Slots)
+        {
+            slot.Clear();
+        }
+        OnInventoryChanged?.Invoke();
+
+        Debug.Log("Inventario vaciado por reinicio de nivel.");
+    }
 }
+
+
 
 [Serializable]
 public class InventorySlot

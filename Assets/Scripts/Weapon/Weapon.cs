@@ -21,6 +21,12 @@ public class Weapon : MonoBehaviour
     public Transform muzzlePoint;
     public Transform cameraTransform;
     public GameObject bulletPrefab;
+
+    [Header("Special Ammo")]
+    public GameObject bulletPrefabEspecial;
+    public bool tieneBalaEspecial = false;
+
+    [Header("Extras")]
     public WeaponRecoil recoil;
     public Animator gunAnimator;
     public GameObject casingPrefab;
@@ -69,27 +75,29 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
         _nextFireTime = Time.time + 1f / fireRate;
 
-        // Determine shoot direction from camera center
         Vector3 shootPosition = muzzlePoint.position;
         Vector3 shootDirection = cameraTransform != null ? cameraTransform.forward : muzzlePoint.forward;
 
-        // Instantiate bullet with correct direction
-        GameObject bullet = Instantiate(bulletPrefab, shootPosition, Quaternion.LookRotation(shootDirection));
+        GameObject balaAUsar = tieneBalaEspecial && bulletPrefabEspecial != null ? bulletPrefabEspecial : bulletPrefab;
 
-        // If bullet has a rigidbody, set its velocity
+        GameObject bullet = Instantiate(balaAUsar, shootPosition, Quaternion.LookRotation(shootDirection));
+
+        if (tieneBalaEspecial)
+        {
+            tieneBalaEspecial = false;
+        }
+
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         if (bulletRb != null)
         {
-            bulletRb.linearVelocity = shootDirection * 50f; // Adjust speed as needed
+            bulletRb.linearVelocity = shootDirection * 50f;
         }
 
         recoil.ApplyRecoil();
 
-        // Play GunShoot animation once
         if (gunAnimator != null)
             gunAnimator.SetTrigger("GunShoot");
 
-        // Play random gun shot sound
         if (audioSource != null && gunShotSounds.Length > 0)
         {
             AudioClip randomGunShot = gunShotSounds[Random.Range(0, gunShotSounds.Length)];
@@ -97,7 +105,6 @@ public class Weapon : MonoBehaviour
                 audioSource.PlayOneShot(randomGunShot);
         }
 
-        // Instantiate casing with physics and sound
         if (casingPrefab != null)
         {
             GameObject casing = Instantiate(casingPrefab, casingSpawnPoint != null ? casingSpawnPoint.position : muzzlePoint.position, Quaternion.identity);
@@ -107,22 +114,17 @@ public class Weapon : MonoBehaviour
                 float upwardForce = Random.Range(3f, 5f);
                 float leftwardForce = Random.Range(2f, 4f);
 
-                // Local direction
                 Vector3 localVelocity = new Vector3(-leftwardForce, upwardForce, 0f);
-
-                // Convert to world direction based on the transform
                 Vector3 casingVelocity = transform.TransformDirection(localVelocity);
 
                 casingRb.linearVelocity = casingVelocity;
                 casingRb.angularVelocity = Random.onUnitSphere * 10f;
             }
 
-            // Play casing ejection sound
             if (audioSource != null && casingEjectionSound != null)
                 audioSource.PlayOneShot(casingEjectionSound);
         }
 
-        // Hide bullet gameobjects in order
         if (_bulletIndex < bulletGameobjects.Length && bulletGameobjects[_bulletIndex] != null)
         {
             bulletGameobjects[_bulletIndex].SetActive(false);
@@ -133,13 +135,13 @@ public class Weapon : MonoBehaviour
     public void AddAmmo(int amount)
     {
         reserveAmmo += amount;
-        Debug.Log("Agarraste balas. Munición de reserva: " + ReserveAmmo);
 
         if (CurrentAmmo == 0)
         {
             TryReload();
         }
     }
+
     void TryReload()
     {
         if (_isReloading || currentAmmo == magazineSize || reserveAmmo <= 0) return;

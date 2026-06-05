@@ -11,8 +11,9 @@ public class ExitTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player") && !_isActivated)
         {
-            if (BotonPrueba.iPhase2)
+            if (ReloadLevel.isPhase2Active)
             {
+                Debug.Log("probando si me tomo el tigger " + ReloadLevel.isPhase2Active);
                 ActivateExitSequence();
             }
         }

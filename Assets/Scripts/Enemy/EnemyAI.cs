@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -34,7 +35,9 @@ public class EnemyAI : MonoBehaviour
     public LayerMask playerLayer;
 
     [Header("UI y Game Over")]
-    public GameObject gameOverScreen;
+    public GameObject loseScreen;
+    public GameObject winScreen;
+    public float winScreenDelay = 3f;
     public NavMeshAgent Agent { get; private set; }
 
     private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();
@@ -144,14 +147,28 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void TakeHit()
+    public void TakeHit(bool isSpecialAmmo = false)
     {
-        if (Agent != null) Agent.enabled = false;
+        if (isSpecialAmmo)
+        {
+            if (Agent != null) Agent.enabled = false;
 
-        Collider col = GetComponent<Collider>();
-        if (col != null) col.enabled = false;
+            Collider col = GetComponent<Collider>();
+            if (col != null) col.enabled = false;
 
-        if (anim != null) anim.SetTrigger("Die");
+            if (anim != null) anim.SetTrigger("Die");
+
+            StartCoroutine(ShowWinScreenDelayed());
+        }
+        else
+        {
+            gotShot = true;
+
+            if (shotreceived != null)
+            {
+                shotreceived.Invoke();
+            }
+        }
     }
 
     public void DealDamage()
@@ -171,9 +188,9 @@ public class EnemyAI : MonoBehaviour
             {
                 if (hit.CompareTag("Player"))
                 {
-                    if (gameOverScreen != null)
+                    if (loseScreen != null)
                     {
-                        gameOverScreen.SetActive(true);
+                        loseScreen.SetActive(true);
                         Time.timeScale = 0f;
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
@@ -194,6 +211,19 @@ public class EnemyAI : MonoBehaviour
             {
                 Gizmos.DrawWireSphere(point.position, attackRange);
             }
+        }
+    }
+
+    private IEnumerator ShowWinScreenDelayed()
+    {
+        yield return new WaitForSeconds(winScreenDelay);
+
+        if (winScreen != null)
+        {
+            winScreen.SetActive(true);
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

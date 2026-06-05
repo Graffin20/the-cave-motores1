@@ -6,6 +6,12 @@ public class DoorInteractable : MonoBehaviour, IInteractable
     public ItemDefinition Key;
     public Animator doorAnimator;
 
+    [Header("Textos de Diálogo")]
+    [TextArea]
+    public string[] lockedDialogues = new string[] {
+        "Está puerta necesita una llave",
+    };
+
     private bool isOpen = false;
 
     public void Interact()
@@ -13,22 +19,20 @@ public class DoorInteractable : MonoBehaviour, IInteractable
         if (isOpen) return;
 
         if (InventoryManager.Instance.HasItem(Key))
-        {   
+        {
 
             doorAnimator.SetTrigger("Abrirpuerta");
             isOpen = true;
             InventoryManager.Instance.RemoveItem(Key);
             Debug.Log("Puerta abierta con éxito.");
 
-            // Opcional: Podrías hacer que la llave se consuma acá
-            // InventoryManager.Instance.RemoveItem(Key);
         }
         else
         {
-            Debug.Log("Parece que necesito una llave...");
-
-            // Si tenés tu sistema de diálogos que armamos el otro día, lo llamarías así:
-            // DialogueManager.Instance.ShowDialogue(new string[] { "Esta puerta está trabada.", "Parece que necesito una llave específica para entrar." });
+            if (PopUpText.instance != null)
+            {
+                PopUpText.instance.MostrarDialogo(lockedDialogues);
+            }
         }
     }
 

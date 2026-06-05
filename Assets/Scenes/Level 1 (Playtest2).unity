@@ -16763,6 +16763,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SafeInteractable
   isLocked: 1
   safePanelUI: {fileID: 1512103802}
+  playerMovement: {fileID: 1134153569576432961}
+  cameraLookScript: {fileID: 2072454853417829912}
 --- !u!95 &415698551 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}

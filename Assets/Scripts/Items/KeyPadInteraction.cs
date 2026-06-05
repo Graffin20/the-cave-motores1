@@ -7,6 +7,12 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
     public MonoBehaviour PlayerMovement;
     public MonoBehaviour cameraLookScript;
 
+    [Header("Textos de Diálogo")]
+    [TextArea]
+    public string[] lockedDialogues = new string[] {
+        "Un tablero numerico, parece que pide un codigo para abrir la caja",
+    };
+
     public void OpenKeypad()
     {
         keypadPanel.SetActive(true);
@@ -34,6 +40,16 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
         if (cameraLookScript != null) cameraLookScript.enabled = true;
     }
 
-    public void Interact() => OpenKeypad();
+    public void Interact()
+    {
+        if (PopUpText.instance != null)
+        {
+            PopUpText.instance.MostrarDialogo(lockedDialogues, OpenKeypad);
+        }
+        else
+        {
+            OpenKeypad();
+        }
+    }
     public string GetInteractPrompt() => "Interactuar con Teclado";
 }

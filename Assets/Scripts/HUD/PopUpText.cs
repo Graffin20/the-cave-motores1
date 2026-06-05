@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem; // Importante para detectar el clic
-using System; // Para pasar funciones como parámetro
+using UnityEngine.InputSystem;
+using System;
 
 public class PopUpText : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class PopUpText : MonoBehaviour
     private string[] lineasActivas;
     private int indiceActual;
     private bool enDialogo = false;
-    private Action accionAlTerminar; // Guarda lo que debe pasar al final (ej: subir velocidad)
+    private Action accionAlTerminar;
 
     void Awake()
     {

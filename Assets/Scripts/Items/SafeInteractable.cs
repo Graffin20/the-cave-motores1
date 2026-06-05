@@ -5,35 +5,60 @@ public class SafeInteractable : MonoBehaviour, IInteractable
 {
     [Header("Estado")]
     public bool isLocked = true;
+    private bool isPanelOpen = false;
 
-    [Header("Interfaz de la Caja")]
-    public GameObject safePanelUI; // Arrastrá acá el Panel 2D de la caja fuerte
+    [Header("Interfaz")]
+    public GameObject safePanelUI;
 
-    // Esta función la va a disparar el Keypad cuando pongas la clave correcta
-    public void UnlockSafe()
+    [Header("Referencias de Control")]
+    public MonoBehaviour playerMovement;
+    public MonoBehaviour cameraLookScript;
+
+    void Update()
     {
-        isLocked = false;
+        if (isPanelOpen && !safePanelUI.activeSelf)
+        {
+            CloseSafe();
+        }
+
+
+        if (isPanelOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseSafe();
+        }
     }
 
-    // Esta función la llama tu PlayerInteract al apretar la 'E'
+    public void UnlockSafe() => isLocked = false;
+
     public void Interact()
     {
-        if (isLocked)
-        {
-            Debug.Log("La caja está trabada. Necesito el código.");
-        }
-        else
-        {
-            // Abrimos el panel de la caja fuerte y liberamos el mouse
-            safePanelUI.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        if (!isLocked) OpenSafe();
+        else Debug.Log("Caja trabada");
     }
 
-    // El texto que lee tu Raycast para mostrar en el medio de la pantalla
-    public string GetInteractPrompt()
+    private void OpenSafe()
     {
-        return isLocked ? "Caja Fuerte (Bloqueada)" : "Revisar Caja Fuerte";
+        safePanelUI.SetActive(true);
+        isPanelOpen = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (playerMovement != null) playerMovement.enabled = false;
+        if (cameraLookScript != null) cameraLookScript.enabled = false;
     }
+
+    public void CloseSafe()
+    {
+        safePanelUI.SetActive(false);
+        isPanelOpen = false; // Le avisamos que ya se cerró
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (playerMovement != null) playerMovement.enabled = true;
+        if (cameraLookScript != null) cameraLookScript.enabled = true;
+    }
+
+    public string GetInteractPrompt() => isLocked ? "Caja Fuerte (Bloqueada)" : "Revisar Caja Fuerte";
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
+using UnityEngine.InputSystem; // Importante para detectar el clic
+using System; // Para pasar funciones como parámetro
 
 public class PopUpText : MonoBehaviour
 {
@@ -9,44 +10,63 @@ public class PopUpText : MonoBehaviour
     [SerializeField] private GameObject elPanel;
     [SerializeField] private TextMeshProUGUI elTexto;
 
+    private string[] lineasActivas;
+    private int indiceActual;
+    private bool enDialogo = false;
+    private Action accionAlTerminar; // Guarda lo que debe pasar al final (ej: subir velocidad)
+
     void Awake()
     {
-        // 1. Lógica de Singleton Correcta
-        if (instance == null)
+        if (instance == null) instance = this;
+        else { Destroy(gameObject); return; }
+
+        if (elPanel != null) elPanel.SetActive(false);
+    }
+
+    // Nuevo método que recibe varias líneas y una acción opcional
+    public void MostrarDialogo(string[] lineas, Action alTerminar = null)
+    {
+        lineasActivas = lineas;
+        indiceActual = 0;
+        enDialogo = true;
+        accionAlTerminar = alTerminar;
+
+        elPanel.SetActive(true);
+        elTexto.text = lineasActivas[indiceActual];
+
+        // Pausar el juego
+        Time.timeScale = 0f;
+    }
+
+    void Update()
+    {
+        // Si estamos en diálogo y se presiona el clic izquierdo
+        if (enDialogo && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
-            instance = this;
-            // Opcional: DontDestroyOnLoad(gameObject); // Solo si querés que persista entre escenas
+            AvanzarDialogo();
+        }
+    }
+
+    void AvanzarDialogo()
+    {
+        indiceActual++;
+
+        // Si aún hay líneas, mostramos la siguiente
+        if (indiceActual < lineasActivas.Length)
+        {
+            elTexto.text = lineasActivas[indiceActual];
         }
         else
         {
-            Destroy(gameObject);
-            return; // Salimos para no ejecutar el resto si se destruye
-        }
-
-        // 2. Apagar el panel al inicio
-        if (elPanel != null)
-        {
+            // Si no hay más líneas, terminamos
+            enDialogo = false;
             elPanel.SetActive(false);
+
+            // Reanudar el juego
+            Time.timeScale = 1f;
+
+            // Ejecutar la acción final (si es que enviamos alguna)
+            accionAlTerminar?.Invoke();
         }
-    }
-
-    public void MostrarMensaje(string mensaje, float tiempo = 4f)
-    {
-        if (elPanel == null || elTexto == null)
-        {
-            Debug.LogError("Faltan referencias en el Inspector de PopUpText en el Canvas!");
-            return;
-        }
-
-        StopAllCoroutines();
-        StartCoroutine(MensajeCo(mensaje, tiempo));
-    }
-
-    private IEnumerator MensajeCo(string mensaje, float tiempo)
-    {
-        elTexto.text = mensaje;
-        elPanel.SetActive(true);
-        yield return new WaitForSeconds(tiempo);
-        elPanel.SetActive(false);
     }
 }

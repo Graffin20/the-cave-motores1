@@ -3,7 +3,7 @@ using UnityEngine;
 // Place this on every item prefab that exists in the world.
 // Requires a Collider so raycasts can hit it.
 [RequireComponent(typeof(Collider))]
-public class ItemPickup : MonoBehaviour
+public class ItemPickup : MonoBehaviour, IInteractable
 {
     [Header("Item data")]
     public ItemDefinition itemDefinition;
@@ -24,5 +24,14 @@ public class ItemPickup : MonoBehaviour
         {
             Debug.Log($"[Pickup] Inventory full — couldn't pick up {itemDefinition.itemName}.");
         }
+    }
+
+    public string GetInteractPrompt()
+    {
+        if (itemDefinition != null)
+        {
+            return itemDefinition.itemName;
+        }
+        return "Recoger Objeto";
     }
 }

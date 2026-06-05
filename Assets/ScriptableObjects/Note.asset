@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b36b42d562e9084e85879f8009d7e67, type: 3}
+  m_Name: Note
+  m_EditorClassIdentifier: Assembly-CSharp::NoteItem
+  itemName: Nota
+  description: 
+  icon: {fileID: 1485116360, guid: db5589ed08198dc4c8885d0eb84fd0c5, type: 3}
+  isUsable: 1
+  isStackable: 0
+  isConsumable: 0
+  maxStackSize: 1
+  worldPrefab: {fileID: 3110779171663168695, guid: 24b53245be7764642a723a4a26ee5bdb, type: 3}
+  noteContent: "Contrase\xF1a de Wifi\n7777"

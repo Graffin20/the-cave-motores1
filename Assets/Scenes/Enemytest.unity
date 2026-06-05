@@ -1213,6 +1213,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1267840929}
     - target: {fileID: 509850599140479404, guid: 43a9e5c28c7c4384f976d1b224572c8c, type: 3}
+      propertyPath: escapePoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 509850599140479404, guid: 43a9e5c28c7c4384f976d1b224572c8c, type: 3}
       propertyPath: 'windowPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 117066746}

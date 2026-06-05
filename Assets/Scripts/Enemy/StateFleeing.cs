@@ -23,11 +23,11 @@ public class StateFleeing : EnemyState
 
             if (enemy.escapePoints.Length > 0)
             {
-          
+
                 Transform randomEscape = enemy.escapePoints[Random.Range(0, enemy.escapePoints.Length)];
                 enemy.Agent.SetDestination(randomEscape.position);
             }
-          
+
         }
     }
 

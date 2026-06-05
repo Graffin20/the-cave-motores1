@@ -130,6 +130,16 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void AddAmmo(int amount)
+    {
+        reserveAmmo += amount;
+        Debug.Log("Agarraste balas. Munición de reserva: " + ReserveAmmo);
+
+        if (CurrentAmmo == 0)
+        {
+            TryReload();
+        }
+    }
     void TryReload()
     {
         if (_isReloading || currentAmmo == magazineSize || reserveAmmo <= 0) return;

@@ -9,6 +9,10 @@ public class KeypadController : MonoBehaviour
     public int maxDigits = 4;
     public TextMeshProUGUI displayText;
 
+    [Header("Referencias Extra (Animación y Cierre)")]
+    public Animator cajaFuerteAnimator; // Arrastrar la caja fuerte acá
+    public KeypadInteraction keypadInteraction; // Arrastrar el script de interacción acá
+
     [Header("Eventos")]
     public UnityEvent onUnlock;
 
@@ -33,7 +37,6 @@ public class KeypadController : MonoBehaviour
     {
         currentInput = "";
         UpdateDisplay();
-
     }
 
     public void CheckCode()
@@ -41,13 +44,33 @@ public class KeypadController : MonoBehaviour
         if (currentInput == correctCode)
         {
             displayText.text = "OPEN";
+
+            // 1. Activar la animación de la caja fuerte
+            if (cajaFuerteAnimator != null)
+            {
+                cajaFuerteAnimator.SetTrigger("AbrirCaja");
+            }
+
+            // 2. Invocar cualquier otro evento (sonidos, etc.)
             onUnlock.Invoke();
+
+            // 3. Cerrar el teclado automáticamente después de 1 segundo
+            Invoke("CloseAndClear", 1f);
         }
         else
         {
             displayText.text = "ERR";
             Invoke("ClearInput", 1.5f);
         }
+    }
+
+    private void CloseAndClear()
+    {
+        if (keypadInteraction != null)
+        {
+            keypadInteraction.CloseKeypad();
+        }
+        ClearInput();
     }
 
     private void UpdateDisplay()
@@ -61,6 +84,4 @@ public class KeypadController : MonoBehaviour
             displayText.text = currentInput;
         }
     }
-
-
 }

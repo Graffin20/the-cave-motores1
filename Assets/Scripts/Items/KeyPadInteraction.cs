@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class KeypadInteraction : MonoBehaviour, IInteractable
 {
@@ -10,8 +11,12 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
     [Header("Textos de Diálogo")]
     [TextArea]
     public string[] lockedDialogues = new string[] {
-        "Un tablero numerico, parece que pide un codigo para abrir la caja",
+        "Un tablero numérico, parece que pide un código para abrir la caja",
     };
+
+    // NUEVO: Variable para saber si ya se resolvió el puzzle
+    [HideInInspector]
+    public bool isUnlocked = false;
 
     public void OpenKeypad()
     {
@@ -30,6 +35,7 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
             CloseKeypad();
         }
     }
+
     public void CloseKeypad()
     {
         keypadPanel.SetActive(false);
@@ -37,11 +43,21 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
         Cursor.visible = false;
 
         if (PlayerMovement != null) PlayerMovement.enabled = true;
+
+        StartCoroutine(EnableCameraWithDelay());
+    }
+
+    private IEnumerator EnableCameraWithDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         if (cameraLookScript != null) cameraLookScript.enabled = true;
     }
 
     public void Interact()
     {
+        if (isUnlocked) return;
+
         if (PopUpText.instance != null)
         {
             PopUpText.instance.MostrarDialogo(lockedDialogues, OpenKeypad);
@@ -51,5 +67,11 @@ public class KeypadInteraction : MonoBehaviour, IInteractable
             OpenKeypad();
         }
     }
-    public string GetInteractPrompt() => "Interactuar con Teclado";
+
+    public string GetInteractPrompt()
+    {
+        if (isUnlocked) return "";
+
+        return "Interactuar con Teclado";
+    }
 }

@@ -8269,9 +8269,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 244c4d9902a99a94da749a1344bcfaec, type: 2}
+    - target: {fileID: -1390219482434755317, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
       propertyPath: m_Name
       value: safe_open
+      objectReference: {fileID: 0}
+    - target: {fileID: 1451660033282138559, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
       propertyPath: m_Controller
@@ -8285,24 +8293,25 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 415698549}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 415698550}
     - targetCorrespondingSourceObject: {fileID: 1451660033282138559, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 497840468}
+    - targetCorrespondingSourceObject: {fileID: 1451660033282138559, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 497840472}
+    - targetCorrespondingSourceObject: {fileID: 1451660033282138559, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 497840473}
     - targetCorrespondingSourceObject: {fileID: -1390219482434755317, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 705965125}
+    - targetCorrespondingSourceObject: {fileID: -1390219482434755317, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 705965129}
+    - targetCorrespondingSourceObject: {fileID: -1390219482434755317, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 705965130}
   m_SourcePrefab: {fileID: 100100000, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
---- !u!1 &213350149 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
-  m_PrefabInstance: {fileID: 213350148}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &217743142
 Mesh:
   m_ObjectHideFlags: 0
@@ -16186,7 +16195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &384504635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16728,43 +16737,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
   m_PrefabInstance: {fileID: 213350148}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &415698549
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213350149}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.9327065, y: 1.450818, z: 1.47834}
-  m_Center: {x: 0.012758845, y: 1.1353768, z: 0.0059772907}
---- !u!114 &415698550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213350149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a9ec7ca7c5c6b49812f3ec83822575, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SafeInteractable
-  isLocked: 1
-  safePanelUI: {fileID: 1512103802}
-  playerMovement: {fileID: 1134153569576432961}
-  cameraLookScript: {fileID: 2072454853417829912}
 --- !u!95 &415698551 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
@@ -17405,6 +17377,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
   Key: {fileID: 11400000, guid: 6ccd173700fd7a748b12c9127a541b96, type: 2}
   doorAnimator: {fileID: 441302455}
+  lockedDialogues:
+  - "Est\xE1 puerta necesita una llave"
 --- !u!65 &441302454
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18111,6 +18085,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3100409134524082077, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+--- !u!65 &497840472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497840466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0012576729, y: 0.015322226, z: 0.014910706}
+  m_Center: {x: -0.000032297823, y: -0.0071993056, z: -5.1640103e-10}
+--- !u!114 &497840473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497840466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a9ec7ca7c5c6b49812f3ec83822575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SafeInteractable
+  isLocked: 1
+  safePanelUI: {fileID: 1512103802}
+  playerMovement: {fileID: 1134153569576432961}
+  cameraLookScript: {fileID: 2072454853417829912}
 --- !u!4 &498137115 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 88433b3c7b3f14a4d9025da546d00c13, type: 3}
@@ -22085,6 +22096,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7131949748301065856, guid: 16689c702c4a21944b85e1d8f847b01c, type: 3}
+--- !u!65 &705965129
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705965123}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.017760517, y: 0.012860339, z: 0.01769214}
+  m_Center: {x: 0.000080795566, y: 0.0012595601, z: -0.00027717158}
+--- !u!114 &705965130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705965123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a9ec7ca7c5c6b49812f3ec83822575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SafeInteractable
+  isLocked: 1
+  safePanelUI: {fileID: 1512103802}
+  playerMovement: {fileID: 1134153569576432961}
+  cameraLookScript: {fileID: 2072454853417829912}
 --- !u!4 &715137827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7439867323056043529, guid: 4dfd04f448902e445924ca139894def7, type: 3}
@@ -69839,11 +69887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa4c91334060324d9cd024f742951d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.223
+      value: 1.222
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa4c91334060324d9cd024f742951d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.694
+      value: -11.701
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa4c91334060324d9cd024f742951d2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -69911,6 +69959,8 @@ MonoBehaviour:
   keypadPanel: {fileID: 2085710873}
   PlayerMovement: {fileID: 1134153569576432961}
   cameraLookScript: {fileID: 2072454853417829912}
+  lockedDialogues:
+  - Un tablero numerico, parece que pide un codigo para abrir la caja
 --- !u!65 &1954427417
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73920,7 +73970,19 @@ MonoBehaviour:
   onUnlock:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 415698550}
+      - m_Target: {fileID: 497840473}
+        m_TargetAssemblyTypeName: SafeInteractable, Assembly-CSharp
+        m_MethodName: UnlockSafe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 705965130}
         m_TargetAssemblyTypeName: SafeInteractable, Assembly-CSharp
         m_MethodName: UnlockSafe
         m_Mode: 1

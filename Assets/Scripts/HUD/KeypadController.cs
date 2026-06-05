@@ -10,8 +10,8 @@ public class KeypadController : MonoBehaviour
     public TextMeshProUGUI displayText;
 
     [Header("Referencias Extra (Animación y Cierre)")]
-    public Animator cajaFuerteAnimator; // Arrastrar la caja fuerte acá
-    public KeypadInteraction keypadInteraction; // Arrastrar el script de interacción acá
+    public Animator cajaFuerteAnimator;
+    public KeypadInteraction keypadInteraction;
 
     [Header("Eventos")]
     public UnityEvent onUnlock;
@@ -45,16 +45,18 @@ public class KeypadController : MonoBehaviour
         {
             displayText.text = "OPEN";
 
-            // 1. Activar la animación de la caja fuerte
+            if (keypadInteraction != null)
+            {
+                keypadInteraction.isUnlocked = true;
+            }
+
             if (cajaFuerteAnimator != null)
             {
                 cajaFuerteAnimator.SetTrigger("AbrirCaja");
             }
 
-            // 2. Invocar cualquier otro evento (sonidos, etc.)
             onUnlock.Invoke();
 
-            // 3. Cerrar el teclado automáticamente después de 1 segundo
             Invoke("CloseAndClear", 1f);
         }
         else

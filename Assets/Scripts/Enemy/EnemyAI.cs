@@ -152,21 +152,24 @@ public class EnemyAI : MonoBehaviour
         if (isSpecialAmmo)
         {
             if (Agent != null) Agent.enabled = false;
-
             Collider col = GetComponent<Collider>();
             if (col != null) col.enabled = false;
-
             if (anim != null) anim.SetTrigger("Die");
-
             StartCoroutine(ShowWinScreenDelayed());
         }
         else
         {
-            gotShot = true;
-
-            if (shotreceived != null)
+            if (ReloadLevel.isPhase2Active)
             {
-                shotreceived.Invoke();
+                gotShot = true;
+                if (shotreceived != null)
+                {
+                    shotreceived.Invoke();
+                }
+            }
+            else
+            {
+                ChangeState(StateID.Fleeing);
             }
         }
     }

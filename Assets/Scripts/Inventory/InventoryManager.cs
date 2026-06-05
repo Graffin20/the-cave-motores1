@@ -139,8 +139,6 @@ public class InventoryManager : MonoBehaviour
             slot.Clear();
         }
         OnInventoryChanged?.Invoke();
-
-        Debug.Log("Inventario vaciado por reinicio de nivel.");
     }
 }
 

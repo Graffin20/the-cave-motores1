@@ -27,7 +27,6 @@ public class ExitTrigger : MonoBehaviour
             Enemy.Agent.enabled = false;
             Enemy.transform.position = SpawnExterior.position;
             Enemy.Agent.enabled = true;
-
             Enemy.ChangeState(StateID.Follow);
         }
     }

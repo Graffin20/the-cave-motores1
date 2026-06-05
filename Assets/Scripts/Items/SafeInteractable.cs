@@ -7,33 +7,33 @@ public class SafeInteractable : MonoBehaviour, IInteractable
     public bool isLocked = true;
 
     [Header("Interfaz de la Caja")]
-    public GameObject safePanelUI; // Arrastrá acá el Panel 2D de la caja fuerte
+    public GameObject safePanelUI;
 
-    // Esta función la va a disparar el Keypad cuando pongas la clave correcta
     public void UnlockSafe()
     {
         isLocked = false;
+        BotonPrueba.iPhase2 = true;
     }
 
-    // Esta función la llama tu PlayerInteract al apretar la 'E'
     public void Interact()
     {
-        if (isLocked)
+        if (!isLocked)
         {
-            Debug.Log("La caja está trabada. Necesito el código.");
-        }
-        else
-        {
-            // Abrimos el panel de la caja fuerte y liberamos el mouse
             safePanelUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
     }
 
-    // El texto que lee tu Raycast para mostrar en el medio de la pantalla
     public string GetInteractPrompt()
     {
-        return isLocked ? "Caja Fuerte (Bloqueada)" : "Revisar Caja Fuerte";
+        if (isLocked)
+        {
+            return "Caja Fuerte (Bloqueada)";
+        }
+        else
+        {
+            return "Revisar Caja Fuerte";
+        }
     }
 }

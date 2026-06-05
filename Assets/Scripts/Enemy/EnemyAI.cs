@@ -29,9 +29,12 @@ public class EnemyAI : MonoBehaviour
     public Animator anim;
 
     [Header("Combat")]
-    public Transform attackPoint;
+    public Transform[] attackPoints;
     public float attackRange = 1.5f;
     public LayerMask playerLayer;
+
+    [Header("UI y Game Over")]
+    public GameObject gameOverScreen;
     public NavMeshAgent Agent { get; private set; }
 
     private Dictionary<StateID, EnemyState> _states = new Dictionary<StateID, EnemyState>();
@@ -143,31 +146,54 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeHit()
     {
-        gotShot = true;
+        if (Agent != null) Agent.enabled = false;
 
-        if (shotreceived != null)
-        {
-            shotreceived.Invoke();
-        }
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        if (anim != null) anim.SetTrigger("Die");
     }
 
     public void DealDamage()
     {
-        if (attackPoint == null) return;
-
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, playerLayer);
-
-        foreach (Collider hit in hitEnemies)
+        if (attackPoints == null || attackPoints.Length == 0)
         {
+            return;
+        }
 
-            Debug.Log("Decime que anda por favor");
+        foreach (Transform point in attackPoints)
+        {
+            if (point == null) continue;
+
+            Collider[] hitEnemies = Physics.OverlapSphere(point.position, attackRange, playerLayer);
+
+            foreach (Collider hit in hitEnemies)
+            {
+                if (hit.CompareTag("Player"))
+                {
+                    if (gameOverScreen != null)
+                    {
+                        gameOverScreen.SetActive(true);
+                        Time.timeScale = 0f;
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
+                }
+            }
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null) return;
+        if (attackPoints == null || attackPoints.Length == 0) return;
+
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        foreach (Transform point in attackPoints)
+        {
+            if (point != null)
+            {
+                Gizmos.DrawWireSphere(point.position, attackRange);
+            }
+        }
     }
 }

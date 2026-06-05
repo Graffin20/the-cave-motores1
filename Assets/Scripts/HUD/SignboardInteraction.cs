@@ -4,8 +4,9 @@ public class SignboardInteraction : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private string[] textosDelLetrero = {
-        "Cabaña a 5 metros.",
-        "Debo ir para allá de inmediato"
+        "Bienvenidos a La Reserva!",
+        "El paraiso esta mas cerca que nunca!",
+        "Debo ir para alla de inmediato"
     };
 
     [Header("Referencias")]

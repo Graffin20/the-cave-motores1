@@ -151,14 +151,23 @@ public class EnemyAI : MonoBehaviour
     {
         if (isSpecialAmmo)
         {
+            if (ChaseMusicManager.instance != null)
+            {
+                ChaseMusicManager.instance.StopChaseMusic();
+            }
+
             if (Agent != null) Agent.enabled = false;
+
             Collider col = GetComponent<Collider>();
             if (col != null) col.enabled = false;
+
             if (anim != null) anim.SetTrigger("Die");
+
             StartCoroutine(ShowWinScreenDelayed());
         }
         else
         {
+
             if (ReloadLevel.isPhase2Active)
             {
                 gotShot = true;

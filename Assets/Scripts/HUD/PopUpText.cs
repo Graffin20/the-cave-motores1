@@ -10,6 +10,10 @@ public class PopUpText : MonoBehaviour
     [SerializeField] private GameObject elPanel;
     [SerializeField] private TextMeshProUGUI elTexto;
 
+    [Header("Sonido de Diálogo")]
+    public AudioSource audioSource;
+    public AudioClip dialogueSound;
+
     private string[] lineasActivas;
     private int indiceActual;
     private bool enDialogo = false;
@@ -40,10 +44,15 @@ public class PopUpText : MonoBehaviour
 
     void Update()
     {
-        // Si estamos en diálogo y se presiona el clic izquierdo
+
         if (enDialogo && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             AvanzarDialogo();
+
+            if (audioSource != null && dialogueSound != null)
+            {
+                audioSource.PlayOneShot(dialogueSound);
+            }
         }
     }
 

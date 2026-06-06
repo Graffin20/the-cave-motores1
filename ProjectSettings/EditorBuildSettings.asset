@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: f6f317c61c3c9fe4582a61254c0cc58d
   - enabled: 1
-    path: Assets/Scenes/Juancarlosteodio.unity
-    guid: 668f6673c32224b4fb334600929d8197
+    path: Assets/Scenes/EscenaPlaystestfinal.unity
+    guid: 27f5c5da99a5f0046bfa0a2a866585ed
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

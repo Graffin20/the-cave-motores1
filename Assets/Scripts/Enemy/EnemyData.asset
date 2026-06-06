@@ -18,7 +18,7 @@ MonoBehaviour:
   FollowSpeed: 6.5
   Stuntime: 2
   roartime: 4.12
-  sfxSpawn: {fileID: 8300000, guid: 3a5f5d407ddfa1646950c058f8d26cdb, type: 3}
+  sfxSpawn: {fileID: 8300000, guid: 093f4c57ce63e714d878eb4aa80a46eb, type: 3}
   sfxDamage: {fileID: 0}
   sfxAttacks: []
   footstepSounds: []
